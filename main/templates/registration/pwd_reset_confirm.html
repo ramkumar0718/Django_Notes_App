@@ -1,0 +1,13 @@
+{% extends "main/base.html" %}
+
+{% block title %}New Password{% endblock %}
+
+{% block content %}
+    {% load crispy_forms_tags %}
+    <h2>Type New Password</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "main/base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <!-- Filter Tags -->
+    <div class="container mt-3">
+        <form method="GET" action="{% url 'index' %}">
+            <h2>Filter by Tags :</h2>
+            <label for="colorSelect" class="form-label mt-3">Choose a color:</label>
+            <select id="colorSelect" name="color" class="form-select">
+                <option value="" {% if not selected_color %}selected{% endif %}>All Colors</option>
+                {% for color_code, color_name in colors_list %}
+                    <option value="{{ color_code }}" {% if selected_color == '{{ color_code }}' %}selected{% endif %}>{{ color_name }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="btn btn-primary mt-4">Submit</button>
+        </form>
+    </div>
+
+    <!-- Cards -->
+    <div class="container mt-5">
+        {% for note in notes %}
+            {% if user == note.author %}
+                <div class="card mt-2">
+                    <div class="card-header d-flex">
+                        <h5>{{ note.title }}  -</h5>
+                        <div class="circle d-flex" style="background-color:{{ note.color }};"></div>
+                    </div>
+                    <div class="card-body d-flex flex-row justify-content-between">
+                        <div>
+                            <p>{{ note.description|linebreaksbr }}</p>
+                        </div>
+                        <div>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger" name="note-id" value={{note.id}}>Delete</button>
+                            </form>
+                            <form method="GET" action="{% url 'update_note' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary mt-2" name="update-id" value={{note.id}}>Edit</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <p>Created: {{ note.created_at|date:"d-m-Y, h:i A" }}{% if note.created_at != note.updated_at %} | Updated: {{ note.updated_at|date:"d-m-Y, h:i A" }} {% endif %}</p>
+                    </div>
+                </div>
+            {% endif %}
+        {% empty %}
+            <p>There are no notes to show :)</p>    
+        {% endfor %}
+    </div>
+
+    <style>
+        /* For card header circle */
+        .circle {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            margin-top: 6px;
+            margin-left: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .circle{
+                width: 13px;
+                height: 13px;
+            }
+        }
+    </style>
+{% endblock %}
