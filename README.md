@@ -14,4 +14,4 @@ pip install -r requirements.txt
 ```
 
 ### Live Version
-You can view the live version of the app at: [Notes App]()
+You can view the live version of the app at: [Notes App](https://notestack-5bjo.onrender.com/)
