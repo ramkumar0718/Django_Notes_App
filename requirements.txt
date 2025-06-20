@@ -1,8 +1,9 @@
 asgiref==3.8.1
 crispy-bootstrap5==2025.6
-dj-database-url==3.0.0
 Django==5.2.3
 django-crispy-forms==2.4
+gunicorn==23.0.0
+packaging==25.0
 pillow==11.2.1
 psycopg==3.2.9
 psycopg-binary==3.2.9
